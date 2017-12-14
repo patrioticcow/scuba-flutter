@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/drawer/menu.dart';
+import 'package:myapp/route/routes.dart';
 import 'package:myapp/main.dart';
 
 void main() => runApp(new MyApp());
@@ -10,13 +11,18 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var routes = <String, WidgetBuilder>{
+      HomePage.routeName: (BuildContext context) =>
+          new HomePage(title: 'HomePage')
+    };
 
     return new MaterialApp(
-      title: 'Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new TestPage(title: 'Test Page'),
+        title: 'Demo',
+        theme: new ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: new TestPage(title: 'Test Page'),
+        routes: routes
     );
   }
 }

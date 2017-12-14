@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/test.dart';
+import 'package:myapp/main.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -7,21 +9,25 @@ class Menu extends StatelessWidget {
       child: new ListView(
         children: <Widget>[
           const DrawerHeader(child: const Center(child: const Text('Scuba'))),
-          const ListTile(
+          new ListTile(
             leading: const Icon(Icons.assessment),
-            title: const Text('Stock List'),
-            selected: true,
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pushNamed(context, HomePage.routeName);
+            },
           ),
-          const ListTile(
+          new ListTile(
             leading: const Icon(Icons.account_balance),
-            title: const Text('Account Balance'),
-            enabled: false,
+            title: const Text('Tests'),
+            onTap: () {
+              Navigator.pushNamed(context, TestPage.routeName);
+            },
           ),
           new ListTile(
             leading: const Icon(Icons.dvr),
-            title: const Text('Dump App to Console'),
+            title: const Text('Notebook'),
             onTap: () {
-
+              Navigator.pushNamed(context, TestPage.routeName);
             },
           ),
           const Divider(),

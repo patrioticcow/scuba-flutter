@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/drawer/menu.dart';
+import 'package:myapp/route/routes.dart';
 import 'package:myapp/test.dart';
 
 void main() => runApp(new MyApp());
@@ -10,22 +11,16 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //var routes = <String, WidgetBuilder>{
-    //  HomePage.routeName: (BuildContext context) =>
-    //      new HomePage(title: 'HomePage')
-    //};
-    var routes = <String, WidgetBuilder>{
-      TestPage.routeName: (BuildContext context) =>
-          new TestPage(title: 'TestPage')
-    };
 
     return new MaterialApp(
-      title: 'Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new HomePage(title: 'Home Page'),
-      routes: routes,
+        title: 'Demo',
+        theme: new ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: new HomePage(title: 'Home Page'),
+        routes: <String, WidgetBuilder>{
+          TestPage.routeName: (BuildContext context) => new TestPage(title: 'TestPage')
+        }
     );
   }
 }
@@ -33,7 +28,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
-  static const String routeName = "/HomePage";
+  static const String routeName = "/";
 
   final String title;
 
@@ -45,16 +40,15 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
-    Navigator.pushNamed(context, TestPage.routeName);
 
     setState(() {
       _counter++;
     });
 
-    _getIPAddress();
+    _getQuiz();
   }
 
-  _getIPAddress() async {
+  _getQuiz() async {
     String url = 'https://api.massinflux.com/scuba/quiz.php?type=quiz';
     var httpClient = createHttpClient();
     var response = await httpClient.read(url);
