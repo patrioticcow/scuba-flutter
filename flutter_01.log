@@ -1,0 +1,93 @@
+Flutter crash report; please file at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run
+
+## exception
+
+String: Exit code 1 from: E:\Work\scuba-flutter\android\gradlew.bat -v:
+Error: Could not find or load main class org.gradle.wrapper.GradleWrapperMain
+
+```
+#0      runCheckedAsync (package:flutter_tools/src/base/process.dart:242)
+<asynchronous suspension>
+#1      _initializeGradle (package:flutter_tools/src/android/gradle.dart:170)
+<asynchronous suspension>
+#2      _ensureGradle (package:flutter_tools/src/android/gradle.dart:152)
+<asynchronous suspension>
+#3      _readGradleProject (package:flutter_tools/src/android/gradle.dart:87)
+<asynchronous suspension>
+#4      _gradleProject (package:flutter_tools/src/android/gradle.dart:80)
+<asynchronous suspension>
+#5      getGradleAppOut (package:flutter_tools/src/android/gradle.dart:74)
+<asynchronous suspension>
+#6      AndroidApk.fromCurrentDirectory (package:flutter_tools/src/application_package.dart:86)
+<asynchronous suspension>
+#7      getApplicationPackageForPlatform (package:flutter_tools/src/application_package.dart:265)
+<asynchronous suspension>
+#8      FlutterDevice.runHot (package:flutter_tools/src/resident_runner.dart:247)
+<asynchronous suspension>
+#9      HotRunner.run (package:flutter_tools/src/run_hot.dart:215)
+<asynchronous suspension>
+#10     RunCommand.runCommand (package:flutter_tools/src/commands/run.dart:335)
+<asynchronous suspension>
+#11     FlutterCommand.verifyThenRunCommand (package:flutter_tools/src/runner/flutter_command.dart:256)
+<asynchronous suspension>
+#12     FlutterCommand.run (package:flutter_tools/src/runner/flutter_command.dart:196)
+<asynchronous suspension>
+#13     CommandRunner.runCommand (package:args/command_runner.dart:194)
+<asynchronous suspension>
+#14     FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:279)
+<asynchronous suspension>
+#15     CommandRunner.run.<anonymous closure> (package:args/command_runner.dart:109)
+#16     new Future.sync (dart:async/future.dart:222)
+#17     CommandRunner.run (package:args/command_runner.dart:109)
+#18     FlutterCommandRunner.run (package:flutter_tools/src/runner/flutter_command_runner.dart:162)
+#19     run.<anonymous closure> (package:flutter_tools/runner.dart:89)
+<asynchronous suspension>
+#20     AppContext._run (package:flutter_tools/src/base/context.dart:76)
+<asynchronous suspension>
+#21     AppContext.runInZone.<anonymous closure> (package:flutter_tools/src/base/context.dart:66)
+#22     _rootRun (dart:async/zone.dart:1120)
+#23     _CustomZone.run (dart:async/zone.dart:1001)
+#24     runZoned (dart:async/zone.dart:1467)
+#25     AppContext.runInZone (package:flutter_tools/src/base/context.dart:65)
+#26     run (package:flutter_tools/runner.dart:60)
+<asynchronous suspension>
+#27     main (package:flutter_tools/executable.dart:43)
+<asynchronous suspension>
+#28     main (file:///C:/flutter/packages/flutter_tools/bin/flutter_tools.dart:16)
+#29     _startIsolate.<anonymous closure> (dart:isolate-patch/isolate_patch.dart:263)
+#30     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:151)
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (on Microsoft Windows [Version 10.0.16299.125], locale en-US, channel alpha)
+    • Flutter at C:\flutter
+    • Framework revision 8f65fec5f5 (35 hours ago), 2017-12-12 09:50:14 -0800
+    • Engine revision edaecdc8b8
+    • Tools Dart version 1.25.0-dev.11.0
+    • Engine Dart version 2.0.0-edge.d8ae797298c3a6cf8dc9f4558707bd2672224d3e
+
+[✓] Android toolchain - develop for Android devices (Android SDK 26.0.1)
+    • Android SDK at E:\Android\android-sdk
+    • Android NDK location not configured (optional; useful for native profiling support)
+    • Platform android-26, build-tools 26.0.1
+    • Java binary at: C:\Program Files\Android\Android Studio\jre\bin\java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-915-b01)
+
+[✓] Android Studio (version 3.0)
+    • Android Studio at C:\Program Files\Android\Android Studio
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-915-b01)
+
+[✓] IntelliJ IDEA Ultimate Edition (version 2017.3)
+    • Flutter plugin version 20.0.3
+    • Dart plugin version 173.3942.31
+
+[✓] Connected devices
+    • BLN L24 • HSMDU16C24006613 • android-arm • Android 7.0 (API 24)
+
+```

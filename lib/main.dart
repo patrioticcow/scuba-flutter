@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     //};
     var routes = <String, WidgetBuilder>{
       TestPage.routeName: (BuildContext context) =>
-      new TestPage(title: 'TestPage')
+          new TestPage(title: 'TestPage')
     };
 
     return new MaterialApp(
