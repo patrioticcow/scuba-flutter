@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/test.dart';
-import 'package:myapp/main.dart';
+import 'package:myapp/screens/tests.dart';
+import 'package:myapp/screens/home.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -20,14 +20,14 @@ class Menu extends StatelessWidget {
             leading: const Icon(Icons.account_balance),
             title: const Text('Tests'),
             onTap: () {
-              Navigator.pushNamed(context, TestPage.routeName);
+              Navigator.pushNamed(context, TestsPage.routeName);
             },
           ),
           new ListTile(
             leading: const Icon(Icons.dvr),
             title: const Text('Notebook'),
             onTap: () {
-              Navigator.pushNamed(context, TestPage.routeName);
+              Navigator.pushNamed(context, TestsPage.routeName);
             },
           ),
           const Divider(),
