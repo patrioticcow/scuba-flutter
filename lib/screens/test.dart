@@ -1,70 +1,98 @@
+import 'dart:core';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/drawer/menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myapp/widgets/testList.dart';
+import 'package:myapp/screens/home.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key key, this.title}) : super(key: key);
+  TestPage({Key key, this.title, this.id, this.qid}) : super(key: key);
 
-  static const String routeName = "/TestPage";
+  static const String routeName = "TestPage";
 
   final String title;
+  final int id;
+  final int qid;
 
   @override
   _TestPageState createState() => new _TestPageState();
 }
 
 class _TestPageState extends State<TestPage> {
-  int _counter = 0;
+  var question;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-
-    _getIPAddress();
+  _getQuizFromStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('quiz');
   }
 
-  _getIPAddress() async {
-    String url = 'https://api.massinflux.com/scuba/quiz.php?type=quiz';
-    var httpClient = createHttpClient();
-    var response = await httpClient.read(url);
-    List data = JSON.decode(response);
+  _getQuestions(data) {
+    var value;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]['group'] == widget.id) {
+        value = data[i]['data'][widget.qid];
+      }
+    }
 
-    print(data[0]['name']);
-    print(data);
-
-    if (!mounted) return;
+    return value;
   }
 
   @override
   Widget build(BuildContext context) {
     Menu drawer = new Menu();
 
+    _getQuizFromStorage().then((String value) {
+      if (value != null) {
+        this.question = _getQuestions(JSON.decode(value));
+      }
+    });
+
     return new Scaffold(
-      drawer: drawer,
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'TEST You have pushed the button this many times;:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+        drawer: drawer,
+        appBar: new AppBar(
+          title: new Text(widget.title),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
+        body: this.question != null ? new QuestionCard(question: this.question) : '');
+  }
+}
+
+class QuestionCard extends StatelessWidget {
+  final question;
+  static const x = ';;;';
+
+  QuestionCard({Key key, this.question}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print('-----------');
+    print(this.question);
+    print(this.question['title']);
+
+    return new Card(
+      child: new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          const ListTile(
+            leading: const Icon(Icons.album),
+            title: const Text(x),
+          ),
+          new FlatButton(
+            child: const Text(
+                'BUY TICKETS Music by Julie Gable.e. Lyrics by Sidney Stein.'),
+            onPressed: () {
+              /* ... */
+            },
+          ),
+          new FlatButton(
+            child: const Text('BUY TICKETS'),
+            onPressed: () {
+              /* ... */
+            },
+          ),
+        ],
       ),
     );
   }

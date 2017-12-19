@@ -7,7 +7,7 @@ import 'package:myapp/drawer/menu.dart';
 class TestsPage extends StatefulWidget {
   TestsPage({Key key, this.title}) : super(key: key);
 
-  static const String routeName = "/TestsPage";
+  static const String routeName = "TestsPage";
 
   final String title;
 

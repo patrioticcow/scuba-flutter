@@ -1,4 +1,4 @@
-
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/screens/tests.dart';
@@ -9,7 +9,6 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return new MaterialApp(
         title: 'Demo',
         theme: new ThemeData(
@@ -17,10 +16,20 @@ class MyApp extends StatelessWidget {
         ),
         home: new HomePage(title: 'Home Page'),
         routes: <String, WidgetBuilder>{
-          TestPage.routeName: (BuildContext context) => new TestPage(title: 'TestPage'),
-          TestsPage.routeName: (BuildContext context) => new TestsPage(title: 'TestsPage')
-        }
-    );
+          TestsPage.routeName: (BuildContext context) =>
+              new TestsPage(title: 'TestsPage')
+        },
+        onGenerateRoute: (routeSettings) {
+          var path = routeSettings.name.split('/');
+          final id = path.length > 1 ? int.parse(path[1]) : null;
+          final qid = path.length > 2 ? int.parse(path[2]) : null;
+
+          if (path[0] == TestPage.routeName) {
+            return new MaterialPageRoute(
+              builder: (context) => new TestPage(title: 'TestPage', id: id, qid: qid),
+              settings: routeSettings,
+            );
+          }
+        });
   }
 }
-
