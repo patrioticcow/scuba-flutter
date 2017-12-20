@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new HomePage(title: 'Home Page'),
+        home: new TestsPage(title: 'Tests'),
         routes: <String, WidgetBuilder>{
           TestsPage.routeName: (BuildContext context) =>
               new TestsPage(title: 'TestsPage')
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 
           if (path[0] == TestPage.routeName) {
             return new MaterialPageRoute(
-              builder: (context) => new TestPage(title: 'TestPage', id: id, qid: qid),
+              builder: (context) => new TestPage(id: id, qid: qid),
               settings: routeSettings,
             );
           }

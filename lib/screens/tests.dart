@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:myapp/drawer/menu.dart';
+import 'package:myapp/screens/test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart';
 
 class TestsPage extends StatefulWidget {
   TestsPage({Key key, this.title}) : super(key: key);
@@ -16,26 +20,56 @@ class TestsPage extends StatefulWidget {
 }
 
 class _TestsPageState extends State<TestsPage> {
-  int _counter = 0;
+  List data;
+  bool loading = true;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  _getFromServer() async {
+    var response = await http.get(
+        Uri.encodeFull("https://api.massinflux.com/scuba/quiz.php?type=quiz"),
+        headers: {"Accept": "application/json"});
 
-    _getIPAddress();
+    _saveToStorage(response.body);
   }
 
-  _getIPAddress() async {
-    String url = 'https://api.massinflux.com/scuba/quiz.php?type=quiz';
-    var httpClient = createHttpClient();
-    var response = await httpClient.read(url);
-    List data = JSON.decode(response);
+  _saveToStorage(data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('quiz', data);
 
-    print(data[0]['name']);
-    print(data);
+    setState(() {
+      this.data = JSON.decode(data);
+      loading = false;
+      print('Saved to storage');
+      print(this.data);
+    });
+  }
 
-    if (!mounted) return;
+  Future<String> getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var quiz = prefs.getString('quiz');
+
+    setState(() {
+      if (quiz == null) {
+        _getFromServer();
+      } else {
+        this.data = JSON.decode(quiz);
+        loading = false;
+      }
+
+      print('From Storage');
+      print(quiz);
+    });
+
+    return "Success!";
+  }
+
+  var loadingIndicator = new Center(
+      child: new Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: new CircularProgressIndicator()));
+
+  @override
+  void initState() {
+    this.getData();
   }
 
   @override
@@ -43,29 +77,27 @@ class _TestsPageState extends State<TestsPage> {
     Menu drawer = new Menu();
 
     return new Scaffold(
-      drawer: drawer,
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: new Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'TESTS You have pushed the button this many times;:',
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+        drawer: drawer,
+        appBar: new AppBar(
+          title: new Text('Scuba Tests'),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
-      ),
-    );
+        body: loading ? loadingIndicator : new ListView.builder(
+            itemCount: this.data == null ? 0 : this.data.length,
+            itemBuilder: (BuildContext context, int i) {
+              return new ListTile(
+                title: new Text(this.data[i]['name'],
+                    style: new TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20.0)),
+                subtitle: new Text(this.data[i]['data'][0]['title']),
+                leading: new Icon(
+                  Icons.assignment,
+                  color: Colors.blue[500],
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, TestPage.routeName + "/${this.data[i]['group']}/1");
+                },
+              );
+            }));
   }
 }

@@ -1,19 +1,15 @@
-import 'dart:core';
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:myapp/drawer/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:myapp/widgets/testList.dart';
-import 'package:myapp/screens/home.dart';
 
 class TestPage extends StatefulWidget {
-  TestPage({Key key, this.title, this.id, this.qid}) : super(key: key);
+  TestPage({Key key, this.id, this.qid}) : super(key: key);
 
   static const String routeName = "TestPage";
 
-  final String title;
   final int id;
   final int qid;
 
@@ -26,10 +22,13 @@ class _TestPageState extends State<TestPage> {
 
   _getQuizFromStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('33333333333333333333');
     return prefs.getString('quiz');
   }
 
   _getQuestions(data) {
+    print('++++++++++++');
+    print(data);
     var value;
     for (var i = 0; i < data.length; i++) {
       if (data[i]['group'] == widget.id) {
@@ -43,56 +42,57 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     Menu drawer = new Menu();
+    print('22222222222222222222');
 
     _getQuizFromStorage().then((String value) {
       if (value != null) {
         this.question = _getQuestions(JSON.decode(value));
+
+        print('--------------');
+        print(this.question);
       }
     });
 
     return new Scaffold(
         drawer: drawer,
         appBar: new AppBar(
-          title: new Text(widget.title),
+          title: new Text('I see'),
         ),
-        body: this.question != null ? new QuestionCard(question: this.question) : '');
+    //body: null);
+    body: this.question != null ? new QuestionCard(question: this.question) : '');
   }
 }
 
 class QuestionCard extends StatelessWidget {
   final question;
-  static const x = ';;;';
+  static const test = 'test';
 
   QuestionCard({Key key, this.question}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('-----------');
-    print(this.question);
-    print(this.question['title']);
+    print(this.question['answers']);
+
+    var childList = <Widget>[
+      new ListTile(
+        leading: new Icon(Icons.album),
+        title: new Text(this.question['title']),
+      ),
+    ];
+
+    for (var i = 0; i < this.question['answers'].length; i++) {
+      childList.add(new FlatButton(
+        child: new Text(this.question['answers'][i]),
+        onPressed: () {
+          /* ... */
+        },
+      ));
+    }
 
     return new Card(
       child: new Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const ListTile(
-            leading: const Icon(Icons.album),
-            title: const Text(x),
-          ),
-          new FlatButton(
-            child: const Text(
-                'BUY TICKETS Music by Julie Gable.e. Lyrics by Sidney Stein.'),
-            onPressed: () {
-              /* ... */
-            },
-          ),
-          new FlatButton(
-            child: const Text('BUY TICKETS'),
-            onPressed: () {
-              /* ... */
-            },
-          ),
-        ],
+        children: childList,
       ),
     );
   }
