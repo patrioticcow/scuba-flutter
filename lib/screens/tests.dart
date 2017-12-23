@@ -80,23 +80,25 @@ class _TestsPageState extends State<TestsPage> {
         appBar: new AppBar(
           title: new Text('Scuba Tests'),
         ),
-        body: loading ? loadingIndicator : new ListView.builder(
-            itemCount: this.data == null ? 0 : this.data.length,
-            itemBuilder: (BuildContext context, int i) {
-              return new ListTile(
-                title: new Text(this.data[i]['name'],
-                    style: new TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 20.0)),
-                subtitle: new Text(this.data[i]['data'][0]['title']),
-                leading: new Icon(
-                  Icons.assignment,
-                  color: Colors.blue[500],
-                ),
-                onTap: () {
-                  Navigator.pushNamed(
-                      context, TestPage.routeName + "/${i}/0");
-                },
-              );
-            }));
+        body: loading
+            ? loadingIndicator
+            : new ListView.builder(
+                itemCount: this.data == null ? 0 : this.data.length,
+                itemBuilder: (BuildContext context, int i) {
+                  return new ListTile(
+                    title: new Text(this.data[i]['name'],
+                        style: new TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 20.0)),
+                    subtitle: new Text(this.data[i]['data'][0]['title']),
+                    leading: new Icon(
+                      Icons.assignment,
+                      color: Colors.blue[500],
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, TestPage.routeName + "/${i}/0");
+                    },
+                  );
+                }));
   }
 }

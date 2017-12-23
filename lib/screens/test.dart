@@ -27,10 +27,6 @@ class _TestPageState extends State<TestPage> {
       this.quiz = prefs.getString('quiz');
       this.quiz = JSON.decode(this.quiz)[widget.id];
       this.question = this.quiz['data'][widget.qid];
-
-      print('-----TestPage-----');
-      print(this.quiz);
-      print(this.question);
     });
 
     return "Success!";
@@ -51,19 +47,27 @@ class _TestPageState extends State<TestPage> {
           title: new Text('I see'),
         ),
         //body: null);
-    body: this.question != null ? new QuestionCard(question: this.question) : '');
+        body: this.question != null
+            ? new QuestionCard(question: this.question, id: widget.id, qid: widget.qid)
+            : '');
   }
 }
 
 class QuestionCard extends StatelessWidget {
   final question;
+  final id;
+  final qid;
 
-  QuestionCard({Key key, this.question}) : super(key: key);
+  QuestionCard({Key key, this.question, this.id, this.qid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var qid = this.qid + 1;
     print('-----QuestionCard-----');
     print(this.question['answers']);
+    print(this.id);
+    print(this.qid);
+    print(qid);
 
     var childList = <Widget>[
       new ListTile(
@@ -76,7 +80,7 @@ class QuestionCard extends StatelessWidget {
       childList.add(new FlatButton(
         child: new Text(this.question['answers'][i]),
         onPressed: () {
-          /* ... */
+          Navigator.pushNamed(context, TestPage.routeName + "/${this.id}/${qid}");
         },
       ));
     }
