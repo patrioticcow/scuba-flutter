@@ -9,7 +9,6 @@ class TestPage extends StatefulWidget {
   TestPage({Key key, this.id, this.qid}) : super(key: key);
 
   static const String routeName = "TestPage";
-
   final int id;
   final int qid;
 
@@ -18,59 +17,52 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
+  var quiz;
   var question;
 
-  _getQuizFromStorage() async {
+  _getFromStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('33333333333333333333');
-    return prefs.getString('quiz');
+
+    setState(() {
+      this.quiz = prefs.getString('quiz');
+      this.quiz = JSON.decode(this.quiz)[widget.id];
+      this.question = this.quiz['data'][widget.qid];
+
+      print('-----TestPage-----');
+      print(this.quiz);
+      print(this.question);
+    });
+
+    return "Success!";
   }
 
-  _getQuestions(data) {
-    print('++++++++++++');
-    print(data);
-    var value;
-    for (var i = 0; i < data.length; i++) {
-      if (data[i]['group'] == widget.id) {
-        value = data[i]['data'][widget.qid];
-      }
-    }
-
-    return value;
+  @override
+  void initState() {
+    this._getFromStorage();
   }
 
   @override
   Widget build(BuildContext context) {
     Menu drawer = new Menu();
-    print('22222222222222222222');
-
-    _getQuizFromStorage().then((String value) {
-      if (value != null) {
-        this.question = _getQuestions(JSON.decode(value));
-
-        print('--------------');
-        print(this.question);
-      }
-    });
 
     return new Scaffold(
         drawer: drawer,
         appBar: new AppBar(
           title: new Text('I see'),
         ),
-    //body: null);
+        //body: null);
     body: this.question != null ? new QuestionCard(question: this.question) : '');
   }
 }
 
 class QuestionCard extends StatelessWidget {
   final question;
-  static const test = 'test';
 
   QuestionCard({Key key, this.question}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('-----QuestionCard-----');
     print(this.question['answers']);
 
     var childList = <Widget>[

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:myapp/drawer/menu.dart';
 import 'package:myapp/screens/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart';
 
 class TestsPage extends StatefulWidget {
   TestsPage({Key key, this.title}) : super(key: key);
@@ -95,7 +94,7 @@ class _TestsPageState extends State<TestsPage> {
                 ),
                 onTap: () {
                   Navigator.pushNamed(
-                      context, TestPage.routeName + "/${this.data[i]['group']}/1");
+                      context, TestPage.routeName + "/${i}/0");
                 },
               );
             }));

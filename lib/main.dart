@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: new TestsPage(title: 'Tests'),
-        routes: <String, WidgetBuilder>{
-          TestsPage.routeName: (BuildContext context) =>
-              new TestsPage(title: 'TestsPage')
-        },
+        //routes: <String, WidgetBuilder>{
+        //  TestsPage.routeName: (BuildContext context) =>
+        //      new TestsPage(title: 'TestsPage')
+        //},
         onGenerateRoute: (routeSettings) {
           var path = routeSettings.name.split('/');
           final id = path.length > 1 ? int.parse(path[1]) : null;
