@@ -51,10 +51,7 @@ class _TestPageState extends State<TestPage> {
           title: new Text('Question'),
         ),
         //body: null);
-        body: this.question != null
-            ? new QuestionCard(
-                question: this.question, id: widget.id, qid: widget.qid)
-            : null);
+        body: this.question != null ? new QuestionCard(question: this.question, id: widget.id, qid: widget.qid) : null);
   }
 }
 
@@ -73,6 +70,8 @@ class _QuestionCardState extends State<QuestionCard> {
   String _selectedAnswer = '';
   bool _isCorrect = false;
   Color _color;
+  int _correctText = 0;
+  int _incorrectText = 0;
 
   void _showAlert() {
     AlertDialog dialog = new AlertDialog(
@@ -81,13 +80,14 @@ class _QuestionCardState extends State<QuestionCard> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           new Container(
-            child: new Text('Correct: ' + (_isCorrect ? 'Yes' : 'No'),
-                style: new TextStyle(color: _color)),
+            child: new Text('Correct: ' + (_isCorrect ? 'Yes' : 'No'), style: new TextStyle(color: _color)),
             margin: const EdgeInsets.only(bottom: 10.0),
           ),
           new Container(
-            child: new Text(
-                widget.question['title'] + ' ' + widget.question['answer']),
+            child: new Text(widget.question['title']),
+          ),
+          new Container(
+            child: new Text(widget.question['answer']),
           ),
         ],
       ),
@@ -98,8 +98,7 @@ class _QuestionCardState extends State<QuestionCard> {
             Navigator.pop(context);
 
             var qid = widget.qid + 1;
-            Navigator.pushNamed(
-                context, TestPage.routeName + "/${widget.id}/${qid}");
+            Navigator.pushNamed(context, TestPage.routeName + "/${widget.id}/${qid}");
           },
         )
       ],
@@ -145,11 +144,29 @@ class _QuestionCardState extends State<QuestionCard> {
       ));
     }
 
-    return new Card(
-      child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        children: childList,
+    return new Column(children: <Widget>[
+      new Card(
+        child: new Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          new Container(
+            padding: const EdgeInsets.all(8.0),
+            child: new Row(children: [
+              new Expanded(
+                child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  new Text('Score', style: new TextStyle(fontWeight: FontWeight.bold)),
+                ]),
+              ),
+              new Container(child: new Text('Correct: ' + _correctText.toString(), style: new TextStyle(color: Colors.green[400])), margin: const EdgeInsets.only(right: 10.0)),
+              new Text('Incorrect: ' + _incorrectText.toString(), style: new TextStyle(color: Colors.red[400])),
+            ]),
+          )
+        ]),
       ),
-    );
+      new Card(
+        child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          children: childList,
+        ),
+      )
+    ]);
   }
 }

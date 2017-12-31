@@ -23,9 +23,7 @@ class _TestsPageState extends State<TestsPage> {
   bool loading = true;
 
   _getFromServer() async {
-    var response = await http.get(
-        Uri.encodeFull("https://api.massinflux.com/scuba/quiz.php?type=quiz"),
-        headers: {"Accept": "application/json"});
+    var response = await http.get(Uri.encodeFull("https://api.massinflux.com/scuba/quiz.php?type=quiz"), headers: {"Accept": "application/json"});
 
     _saveToStorage(response.body);
   }
@@ -61,10 +59,7 @@ class _TestsPageState extends State<TestsPage> {
     return "Success!";
   }
 
-  var loadingIndicator = new Center(
-      child: new Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          child: new CircularProgressIndicator()));
+  var loadingIndicator = new Center(child: new Padding(padding: const EdgeInsets.only(left: 16.0, right: 16.0), child: new CircularProgressIndicator()));
 
   @override
   void initState() {
@@ -86,18 +81,14 @@ class _TestsPageState extends State<TestsPage> {
                 itemCount: this.data == null ? 0 : this.data.length,
                 itemBuilder: (BuildContext context, int i) {
                   return new ListTile(
-                    title: new Text(this.data[i]['name'],
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 20.0)),
+                    title: new Text(this.data[i]['name'], style: new TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0)),
                     subtitle: new Text(this.data[i]['data'][0]['title']),
                     leading: new Icon(
                       Icons.assignment,
                       color: Colors.blue[500],
                     ),
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, TestPage.routeName + "/${i}/0");
-
+                      Navigator.pushNamed(context, TestPage.routeName + "/${i}/0");
                     },
                   );
                 }));
