@@ -64,15 +64,11 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     Menu drawer = new Menu();
 
-    //print('--- question ---');
-    //print(this.question);
-
     return new Scaffold(
         drawer: drawer,
         appBar: new AppBar(
           title: new Text('Question'),
         ),
-        //body: null);
         body: this.question != null ? new QuestionCard(score: this.score, question: this.question, id: widget.id, qid: widget.qid) : null);
   }
 }

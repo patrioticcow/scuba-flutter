@@ -44,6 +44,12 @@ class _QuestionCardState extends State<QuestionCard> {
           onPressed: () {
             Navigator.pop(context);
 
+            print('--- widget ---');
+            print(widget.question);
+            print(widget.qid);
+            print(widget.qid + 1);
+
+
             var qid = widget.qid + 1;
             Navigator.pushNamed(context, TestPage.routeName + "/${widget.id}/${qid}");
           },
@@ -67,11 +73,14 @@ class _QuestionCardState extends State<QuestionCard> {
 
   _setScore(bool status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    int up = widget.score[0] != null ? widget.score[0] : 0;
+    int down = widget.score[1] != null ? widget.score[1] : 0;
+
     // set score
     if (status == true) {
-      prefs.setInt('score_up_' + widget.id.toString(), widget.score[0] + 1);
+      prefs.setInt('score_up_' + widget.id.toString(), up + 1);
     } else {
-      prefs.setInt('score_down_' + widget.id.toString(), widget.score[1] + 1);
+      prefs.setInt('score_down_' + widget.id.toString(), down + 1);
     }
 
     return "Success!";
@@ -79,8 +88,8 @@ class _QuestionCardState extends State<QuestionCard> {
 
   @override
   Widget build(BuildContext context) {
-    _correctText = widget.score[0];
-    _incorrectText = widget.score[1];
+    _correctText = widget.score[0] != null ? widget.score[0] : 0;
+    _incorrectText = widget.score[1] != null ? widget.score[1] : 0;
 
     var childList = <Widget>[
       new ListTile(

@@ -40,7 +40,17 @@ class _TestsPageState extends State<TestsPage> {
     });
   }
 
-  Future<String> getData() async {
+  _resetScore(length) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (int i = 0; i <= length; i++) {
+      prefs.setInt('score_up_' + i.toString(), 0);
+      prefs.setInt('score_down_' + i.toString(), 0);
+    }
+
+    return "Success!";
+  }
+
+  Future<String> _getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var quiz = prefs.getString('quiz');
 
@@ -54,6 +64,8 @@ class _TestsPageState extends State<TestsPage> {
 
       print('From Storage');
       print(quiz);
+
+      this._resetScore(quiz.length);
     });
 
     return "Success!";
@@ -63,7 +75,7 @@ class _TestsPageState extends State<TestsPage> {
 
   @override
   void initState() {
-    this.getData();
+    this._getData();
   }
 
   @override
