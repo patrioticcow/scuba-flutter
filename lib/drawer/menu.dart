@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/tests.dart';
+import 'package:myapp/screens/diversLog.dart';
 import 'package:myapp/screens/home.dart';
 
 class Menu extends StatelessWidget {
@@ -25,9 +26,9 @@ class Menu extends StatelessWidget {
           ),
           new ListTile(
             leading: const Icon(Icons.dvr),
-            title: const Text('Notebook'),
+            title: const Text('Diver\'s Log'),
             onTap: () {
-              Navigator.pushNamed(context, TestsPage.routeName);
+              Navigator.pushNamed(context, DiversLog.routeName);
             },
           ),
           const Divider(),

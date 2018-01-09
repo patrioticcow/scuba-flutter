@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/screens/tests.dart';
+import 'package:myapp/screens/diversLog.dart';
 import 'package:myapp/screens/test.dart';
 
 void main() => runApp(new MyApp());
@@ -14,12 +15,15 @@ class MyApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new TestsPage(title: 'Tests'),
-        //routes: <String, WidgetBuilder>{
-        //  TestsPage.routeName: (BuildContext context) =>
-        //      new TestsPage(title: 'TestsPage')
-        //},
+        home: new HomePage(title: 'Scuba Tests'),
+        routes: <String, WidgetBuilder>{
+          TestsPage.routeName: (BuildContext context) => new TestsPage(title: 'Tests Page'),
+          DiversLog.routeName: (BuildContext context) => new DiversLog(title: 'Divers Log'),
+        },
         onGenerateRoute: (routeSettings) {
+          print('Toute Change');
+          print(routeSettings);
+
           var path = routeSettings.name.split('/');
           final id = path.length > 1 ? int.parse(path[1]) : null;
           final qid = path.length > 2 ? int.parse(path[2]) : null;

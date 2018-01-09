@@ -23,9 +23,13 @@ class _TestsPageState extends State<TestsPage> {
   bool loading = true;
 
   _getFromServer() async {
-    var response = await http.get(Uri.encodeFull("https://api.massinflux.com/scuba/quiz.php?type=quiz"), headers: {"Accept": "application/json"});
+    var response = await http.get(Uri.encodeFull("https://api.massinflux.com/scuba/quiz.php?type=quiz&json"), headers: {"Accept": "application/json"});
+    //_saveToStorage(response.body);
 
-    _saveToStorage(response.body);
+    setState(() {
+      this.data = JSON.decode(response.body);
+      loading = false;
+    });
   }
 
   _saveToStorage(data) async {
@@ -51,23 +55,26 @@ class _TestsPageState extends State<TestsPage> {
   }
 
   Future<String> _getData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var quiz = prefs.getString('quiz');
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    //var quiz = prefs.getString('quiz');
 
+    _getFromServer();
+/*
     setState(() {
       if (quiz == null) {
         _getFromServer();
       } else {
         this.data = JSON.decode(quiz);
         loading = false;
+
+        //
+        this._resetScore(quiz.length);
       }
 
       print('From Storage');
       print(quiz);
-
-      this._resetScore(quiz.length);
     });
-
+*/
     return "Success!";
   }
 
