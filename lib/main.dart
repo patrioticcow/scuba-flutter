@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/home.dart';
 import 'package:myapp/screens/tests.dart';
@@ -8,6 +9,11 @@ import 'package:myapp/screens/test.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  @override
+  void initState() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(

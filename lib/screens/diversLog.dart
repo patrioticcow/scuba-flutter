@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/drawer/menu.dart';
 
 class DiversLog extends StatefulWidget {
+
   DiversLog({Key key, this.title}) : super(key: key);
 
   static const String routeName = "DiversLog";
